@@ -1,0 +1,26 @@
+# Build stage
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Install deps using your lockfile
+COPY package*.json ./
+RUN npm ci
+
+# Copy source and build
+COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npm run build
+
+# Runtime stage
+FROM node:20-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Only copy what we need to run `next start`
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
