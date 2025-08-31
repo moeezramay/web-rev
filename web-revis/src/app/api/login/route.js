@@ -1,7 +1,7 @@
-// src/app/api/login/route.js
 import { cookies } from 'next/headers';
 import clientPromise from '../../../lib/db';
 import { createJWT } from '../../../lib/jwt';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
   try {
@@ -10,15 +10,26 @@ export async function POST(req) {
       return Response.json({ message: 'Email and password are required' }, { status: 400 });
     }
 
-    const client = await clientPromise;
-    const db = client.db('sprintboard'); // your DB name
-    const user = await db.collection('users').findOne({ email });
+    const emailNorm = email.trim().toLowerCase();
 
-    if (!user || user.password !== password) {
+    const client = await clientPromise;
+    const db = client.db('sprintboard');
+    const users = db.collection('users');
+
+    // Only fetch what we need
+    const user = await users.findOne(
+      { email: emailNorm },
+      { projection: { _id: 1, email: 1, passwordHash: 1 } }
+    );
+
+    // Compare plaintext password with stored hash
+    const valid = user && (await bcrypt.compare(password, user.passwordHash));
+    if (!valid) {
       return Response.json({ message: 'Invalid email or password' }, { status: 401 });
     }
 
     const token = await createJWT({ sub: user._id.toString(), email: user.email });
+
     const cookieStore = await cookies();
     cookieStore.set({
       name: 'jwt',

@@ -10,9 +10,6 @@ export async function POST(req) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return Response.json({ message: 'Invalid email format' }, { status: 400 });
     }
-    if (password.length < 6) {
-      return Response.json({ message: 'Password must be at least 6 characters' }, { status: 400 });
-    }
 
     const client = await clientPromise;
     const db = client.db('sprintboard');
