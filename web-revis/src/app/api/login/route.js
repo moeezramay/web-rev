@@ -1,23 +1,24 @@
-// /api/login/route.js
+// src/app/api/login/route.js
 import { cookies } from 'next/headers';
-import { createJWT } from '@/lib/jwt';
+import clientPromise from '../../../lib/db';
+import { createJWT } from '../../../lib/jwt';
 
 export async function POST(req) {
   try {
     const { email, password } = await req.json();
-
     if (!email || !password) {
       return Response.json({ message: 'Email and password are required' }, { status: 400 });
     }
 
-    const ok = email === 'moeez@gmail.com' && password === 'police15SA';
-    if (!ok) {
+    const client = await clientPromise;
+    const db = client.db('sprintboard'); // your DB name
+    const user = await db.collection('users').findOne({ email });
+
+    if (!user || user.password !== password) {
       return Response.json({ message: 'Invalid email or password' }, { status: 401 });
     }
 
-    const token = await createJWT({ sub: email });
-
-    // Set the JWT cookie
+    const token = await createJWT({ sub: user._id.toString(), email: user.email });
     const cookieStore = await cookies();
     cookieStore.set({
       name: 'jwt',
@@ -30,8 +31,8 @@ export async function POST(req) {
     });
 
     return Response.json({ ok: true });
-
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     return Response.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

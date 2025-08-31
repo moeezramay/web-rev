@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from './login.module.css';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,43 +33,52 @@ export default function LoginPage() {
       setSubmitting(false);
     }
   }
-  
 
   return (
-    <main style={{ display: 'grid', placeItems: 'center', minHeight: '100svh', padding: '2rem' }}>
-      <form onSubmit={onSubmit} style={{ display: 'grid', gap: '0.75rem', width: 'min(360px, 100%)' }}>
-        <h1 style={{ margin: 0 }}>Sign in</h1>
+    <main className={styles.page}>
+      <section className={styles.card}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Sign in</h1>
+          <p className={styles.subtitle}>Welcome back to SprintBoard</p>
+        </header>
 
-        <label>
-          <div>Email</div>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            style={{ width: '100%', padding: '0.5rem'  , border: '1px solid #ccc', borderRadius: '4px' }}
-          />
-        </label>
+        <form onSubmit={onSubmit} className={styles.form}>
+          <label className={styles.field}>
+            <span className={styles.label}>Email</span>
+            <input
+              className={styles.input}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              required
+            />
+          </label>
 
-        <label>
-          <div>Password</div>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-            style={{ width: '100%', padding: '0.5rem' , border: '1px solid #ccc', borderRadius: '4px' }}
-          />
-        </label>
+          <label className={styles.field}>
+            <span className={styles.label}>Password</span>
+            <input
+              className={styles.input}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
+          </label>
 
-        {error && <p style={{ color: 'crimson', margin: 0 }}>{error}</p>}
+          {error ? <p className={styles.error}>{error}</p> : null}
 
-        <button type="submit" disabled={submitting} style={{ padding: '0.6rem 1rem' }}>
-          {submitting ? 'Signing in…' : 'Sign in'}
-        </button>
-      </form>
+          <button className={styles.button} type="submit" disabled={submitting}>
+            {submitting ? 'Signing in…' : 'Sign in'}
+          </button>
+        </form>
+
+        <div className={styles.actions}>
+          <span>New here?</span>{' '}
+          <Link className={styles.link} href="/signup">Create an account</Link>
+        </div>
+      </section>
     </main>
   );
 }
