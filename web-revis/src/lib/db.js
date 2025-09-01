@@ -22,7 +22,6 @@ async function testConnection() {
     const client = await clientPromise;
     const db = client.db(dbName);
     const collections = await db.listCollections().toArray();
-    console.log('MongoDB connected successfully:', collections);
   } catch (error) {
     console.error('MongoDB connection failed:', error);
   }
