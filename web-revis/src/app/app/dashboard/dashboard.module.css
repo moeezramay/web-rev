@@ -1,0 +1,140 @@
+.page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.sidebar {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.content {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.h2 {
+  margin: 0 0 .75rem 0;
+  font-size: 1.1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.input, .select {
+  width: 100%;
+  padding: .55rem .7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.input:focus, .select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.18);
+}
+
+.btn {
+  padding: .6rem .9rem;
+  border: 0;
+  border-radius: 8px;
+  background: #111827;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  width: 100%;
+  text-align: left;
+  padding: .5rem .6rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background: #f3f4f6;
+}
+
+.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.badge {
+  font-size: .8rem;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: .2rem .45rem;
+  border-radius: 6px;
+}
+
+.taskForm {
+  display: grid;
+  grid-template-columns: 1fr 160px auto;
+  gap: .5rem;
+  margin: .25rem 0 1rem;
+}
+
+.tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .5rem;
+}
+
+.taskItem {
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .6rem .7rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.taskTitle { font-weight: 600; }
+.taskStatus { color: #6b7280; }
+
+.muted { color: #6b7280; margin: .25rem 0; }
+
+.error {
+  color: #991b1b;
+  background: #fee2e2;
+  border-left: 3px solid #dc2626;
+  padding: .45rem .6rem;
+  border-radius: 6px;
+  margin: .25rem 0 .75rem;
+}
