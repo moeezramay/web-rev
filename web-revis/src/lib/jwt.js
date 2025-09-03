@@ -1,20 +1,20 @@
-import { SignJWT } from 'jose';
+import { SignJWT, jwtVerify } from 'jose';
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+function getSecret() {
+  const s = process.env.JWT_SECRET;
+  if (!s) throw new Error('Missing JWT_SECRET');
+  return new TextEncoder().encode(s);
+}
 
-export async function createJWT(payload) {
+export async function createJWT(payload, exp = '7d') {
   return new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
+    .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
     .setIssuedAt()
-    .setExpirationTime('7d')  
-    .sign(secret);
+    .setExpirationTime(exp)
+    .sign(getSecret());
 }
 
 export async function verifyJWT(token) {
-  try {
-    const { payload } = await jwtVerify(token, secret);
-    return payload;
-  } catch (error) {
-    throw new Error('Invalid or expired token');
-  }
+  const { payload } = await jwtVerify(token, getSecret());
+  return payload; // { sub, email, iat, exp, ... }
 }

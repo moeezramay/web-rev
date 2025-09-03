@@ -5,7 +5,8 @@ import { ObjectId } from 'mongodb';
 
 export async function GET() { //to get the project list
   try {
-    const jwt = cookies().get('jwt')?.value;
+    const cookieStore = await cookies();            
+    const jwt = cookieStore.get('jwt')?.value;
     if (!jwt) return Response.json({ message: 'Unauthorized' }, { status: 401 });
 
     const { sub } = await verifyJWT(jwt); 
@@ -33,7 +34,8 @@ export async function GET() { //to get the project list
 
 export async function POST(req) { //to upload a new project
   try {
-    const jwt = cookies().get('jwt')?.value;
+    const cookieStore = await cookies();            
+    const jwt = cookieStore.get('jwt')?.value;
     if (!jwt) return Response.json({ message: 'Unauthorized' }, { status: 401 });
 
     const { sub } = await verifyJWT(jwt);

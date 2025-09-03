@@ -14,7 +14,6 @@ export function middleware(req) {
     try {
       const payload = verifyJWT(jwt);
       req.user = payload;
-      console.log('User authenticated:', payload);
     } catch (err) {
       return NextResponse.redirect(new URL('/login', req.url));
     }
