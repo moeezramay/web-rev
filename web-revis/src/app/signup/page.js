@@ -76,7 +76,7 @@ export default function SignupPage() {
 
         <div className={styles.actions}>
           <span>Already have an account?</span>{' '}
-          <Link className={styles.link} href="/login">Sign in</Link>
+          <Link className={styles.link} href="/login">Sign In</Link>
         </div>
       </section>
     </main>
